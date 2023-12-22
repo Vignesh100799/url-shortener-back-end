@@ -115,11 +115,12 @@ app.get("/activate-account/:email/:token", async (req, res) => {
             });
 
             if (result.modifiedCount === 1) {
-                res.status(200).json({ message: "Account activated successfully" });
+                // res.status(200).json({ message: "Account activated successfully" }0);
+                res.redirect(`http://localhost:5173`);
             } else {
                 res.status(404).json({ message: "User not found or account is already activated" });
             }
-
+ 
             connection.close();
         });
     } catch (error) {
@@ -139,15 +140,16 @@ app.post("/login", async (req, res) => {
         if (!user) {
             res.status(404).json({ message: "User or password not match" })
         }
+        
         if (!user.isActivated) {
-            res.status(400).json({ message: "Please Activate your account" })
+            res.status(200).json({ message: "Please Activate your account" })
         }
         const passwordValid = await bcrypt.compare(password, user.password)
         if (!passwordValid) {
             res.status(404).json({ message: "user or password not match" })
         }
         const token = jsonwebtoken.sign({ userId: user._id }, secretKey, { expiresIn: "1h" })
-        res.status(200).json({ message: 'Login successful', token });
+        // res.status(200).json({ message: 'Login successful', token });
         connection.close()
     } catch (error) {
         console.log(error)
