@@ -41,7 +41,7 @@ app.post("/short-url", async (req, res) => {
             shortUrl,
         }
         const result = await db.collection("urlData").insertOne(urlData)
-        res.status(200).json({ message: "URL shortend succesfully", shortUrl })
+        res.status(200).json({ message: "URL shortend succesfully", urlData })
         connection.close()
     } catch (error) {
         res.status(400).json({ message: "Something went wrong", error })
