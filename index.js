@@ -41,7 +41,12 @@ app.post("/short-url", async (req, res) => {
             shortUrl,
         }
         const result = await db.collection("urlData").insertOne(urlData)
-        res.status(200).json({ message: "URL shortend succesfully", urlData })
+        res.status(200).json({
+            message: "URL shortend succesfully", url: {
+                originalUrl,
+                shortUrl,
+            }
+        })
         connection.close()
     } catch (error) {
         res.status(400).json({ message: "Something went wrong", error })
@@ -120,7 +125,7 @@ app.get("/activate-account/:email/:token", async (req, res) => {
             } else {
                 res.status(404).json({ message: "User not found or account is already activated" });
             }
- 
+
             connection.close();
         });
     } catch (error) {
@@ -140,7 +145,7 @@ app.post("/login", async (req, res) => {
         if (!user) {
             res.status(404).json({ message: "User or password not match" })
         }
-        
+
         if (!user.isActivated) {
             res.status(200).json({ message: "Please Activate your account" })
         }
