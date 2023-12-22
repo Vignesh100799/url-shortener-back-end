@@ -81,7 +81,7 @@ app.post('/register', async (req, res) => {
         const token = jsonwebtoken.sign({ userId: result.insertedId }, secretKey, { expiresIn: '1h' });
         res.status(201).json({ message: 'Registration successful and activate link sent to your email', newUser, token });
         connection.close()
-        const activateUrl = `http://localhost:4001/activate-account/${email}/${token}`
+        const activateUrl = `https://urlshortener-backend-pkt5.onrender.com/${email}/${token}`
 
         const info = await transporter.sendMail({
             from: process.env.mail,
@@ -186,7 +186,7 @@ app.post('/forget-password', async (req, res) => {
             from: process.env.mail,
             to: email,
             subject: 'Reset password link',
-            text: `Click the following link to reset your password: https://password-reset-flow-vignesh.netlify.app/reset-password/${token}`
+            text: `Click the following link to reset your password: https://splendorous-alfajores-edc802.netlify.app/reset-password/${token}`
         });
 
         res.status(200).json({ message: 'Password reset link sent successfully.' });
