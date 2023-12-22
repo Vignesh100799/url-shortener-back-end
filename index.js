@@ -87,7 +87,7 @@ app.post('/register', async (req, res) => {
         const token = jsonwebtoken.sign({ userId: result.insertedId }, secretKey, { expiresIn: '1h' });
         res.status(201).json({ message: 'Registration successful and activate link sent to your email', newUser, token });
         connection.close()
-        const activateUrl = `http://localhost:4001/activate-account/${email}/${token}`
+        const activateUrl = `https://urlshortener-backend-pkt5.onrender.com/activate-account/${email}/${token}`
 
         const info = await transporter.sendMail({
             from: process.env.mail,
@@ -122,7 +122,7 @@ app.get("/activate-account/:email/:token", async (req, res) => {
 
             if (result.modifiedCount === 1) {
                 // res.status(200).json({ message: "Account activated successfully" }0);
-                res.redirect(`http://localhost:5173`);
+                res.redirect(`https://url-shortener-vignesh.netlify.app/`);
             } else {
                 res.status(404).json({ message: "User not found or account is already activated" });
             }
